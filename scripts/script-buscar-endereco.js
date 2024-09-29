@@ -420,5 +420,4 @@ form.addEventListener("reset", () => {
 })
 
 
-
-
+export { informarRegistro };
