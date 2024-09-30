@@ -1,9 +1,6 @@
 const apiKey = '20fba1ad64c719dbf6e527049f292875';
 const city = 'Cajamar';
 
-import { informarRegistro } from './script-buscar-endereco.js';
-
-console.log(divClicada);
 
 
 

@@ -1,3 +1,37 @@
+// OpenWather - MATHEUS 
+
+const apiKey = '20fba1ad64c719dbf6e527049f292875';
+const city = 'Cajamar';
+
+const getData = async() => {
+
+    const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
+
+    const response = await fetch(apiWeatherURL);
+    const data = await response.json();
+
+    console.log(data);
+
+};
+
+getData();
+
+    // Functions for animations
+    
+    const transformPage = () => {
+        let div = document.createElement('div')
+        div.classList
+    }
+
+
+// 
+
+
+
+
+
+
+
 // LOCAL STORAGE - MATHEUS BEZERRA LIMA 
 
 var boxLista = document.getElementById('box-lista')
@@ -174,6 +208,7 @@ const informarRegistro = (divClicada) =>{
         boxLista.appendChild(div)
     }
 
+    return;
  }
 
  listarPesquisas()
@@ -238,7 +273,8 @@ const informarRegistro = (divClicada) =>{
          informarRegistro(divClicada)
     }    
      
- listarPesquisas()
+    listarPesquisas()
+    transformPage(cepVigente, rua, bairro, cidade, estado, divClicada)
 };
 
 
@@ -420,4 +456,3 @@ form.addEventListener("reset", () => {
 })
 
 
-export { informarRegistro };
