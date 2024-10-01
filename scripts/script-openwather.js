@@ -1,3 +1,40 @@
+
+const apiKey = '20fba1ad64c719dbf6e527049f292875';
+
+const getData = async(object) => {
+    
+    let valueInput = document.querySelector('.input-pesquisa').value
+    let valueDescription = document.querySelector('.p-clima')
+    let valueClima = document.querySelector('.text-clima')
+    let city = valueInput
+    
+    const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
+
+    const response = await fetch(apiWeatherURL);
+    const data = await response.json();
+
+    console.log(data);
+    console.log(data.main.temp);
+
+    valueClima.innerHTML = parseInt(data.main.temp) + "°C"
+    valueDescription.innerHTML = data.weather[0].description
+    
+    
+
+};
+
+getData();
+
+    // Functions for animations
+    
+    const transformPage = () => {
+        let div = document.createElement('div')
+        div.classList
+    }
+
+
+
+
 const toggleTheme = () => {
     const body = document.querySelector('.backEffect');
     
