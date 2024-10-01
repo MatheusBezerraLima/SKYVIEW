@@ -22,11 +22,26 @@
         <div class="header">
             <div class="box-logo">
             <h2><span>SKY</span>VIEW</h2>
-            
-            <i class="fa fa-moon-o" style="font-size:36px; color: red"></i>
+            </div>
 
+            <div class="bottom-modo">
+                <div class="circle-bottom" modo-atual="lua" onclick="alterMode(this)"></div>
             </div>
         </div>
+
+        <div class="label-container">Osasco</div>
+        <div class="container-infos">
+        <div class="container-info local"></div>
+        <div class="container-info clima">
+            <div class="infos-clima">
+                <div class="container-temp"> 
+                    <h2>Osasco</h2>
+                    <h1>32°C</h1>
+                    <div class="p-clima"><p>ensolarado</p> ☁</div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
@@ -78,8 +93,9 @@
     </div>
 
     <!--JAVASCRIPT-->
-    <script  src="scripts/script-buscar-endereco.js"></script>
     <script  src="scripts/script-openwather.js"></script>
+    <script  src="scripts/script-buscar-endereco.js"></script>
+    
 
 </body>
 </html>
