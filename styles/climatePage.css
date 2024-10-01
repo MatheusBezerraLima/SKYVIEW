@@ -1,3 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
 :root {
     /* Variáveis padrão para o tema claro */
     --background-color: #000000;
@@ -22,13 +28,13 @@
     animation:  toEmerge 1.5s ease-in-out ;
 }
 
-@keyframes toEmerge {
+/* @keyframes toEmerge {
     from{
         margin-left: -200%;
     }to{
         margin-left: 0;
     }
-}
+} */
 
 .header{
     width: 97%;
@@ -92,6 +98,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 .container-infos{
     width: 100%;
@@ -146,4 +153,32 @@
     display: flex;
     flex-direction: row;
     gap: 0.8em;
+}
+
+.input-pesquisa{
+    width: 40vw;
+    padding: 1em;
+    border-radius: 10px;
+    background-color: #434242b0;
+    border: 1px solid #ffffffb6;
+    margin: 0;
+    position: relative;
+    line-height: 1;
+    color: #fff;
+    font-size: 0.4em;
+
+}
+
+.container-pesquisa{
+    position: relative;
+    height: 7vh;
+    display: flex;
+}
+.icon-lupa{
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    line-height: 2;
 }
