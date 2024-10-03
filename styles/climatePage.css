@@ -244,17 +244,31 @@
     height: 100%;
     background-color: #000000;
 }
-
+.container-four-infos{
+    display: flex;
+    flex-direction: row;
+    width: 450px;
+    justify-content: space-between;
+}
 .container-humidity-wind_speed{
     display: flex;
     flex-direction: column;
     gap: 0.3em;
+    width: 45%;
+}
+.container-temp-max-min{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    width: 45%;
 }
 
 .details-climas{
     display: flex;
     gap: 0.3em;
     font-size: 1em;
+    width: 100%;
+    height: 50%;
 }
 
 .view-clima{

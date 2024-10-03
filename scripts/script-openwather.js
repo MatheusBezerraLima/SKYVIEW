@@ -54,6 +54,8 @@ const getData = async(event) => {
         let valueHumidity = document.querySelector('.text-humidity')
         let valueWindSpeed = document.querySelector('.text-wind')
         let valueIcon = document.querySelector('.icon-clima')
+        let valueTempMin = document.querySelector('.text-temp-min')
+        let valueTempMax = document.querySelector('.text-temp-max')
 
         console.log(valueIcon);
         
@@ -65,7 +67,9 @@ const getData = async(event) => {
         const response = await fetch(apiWeatherURL);
         const data = await response.json();
 
-      
+        console.log(data);
+        
+        
 
         valueNameCity.innerHTML = data.name
         valueClima.innerHTML = parseInt(data.main.temp) + "°C"
@@ -73,8 +77,9 @@ const getData = async(event) => {
         valueHumidity.innerHTML = data.main.humidity + '%'
         valueWindSpeed.innerHTML = data.wind.speed + 'm/s'
         valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        valueTempMax.innerHTML =  data.main.temp_max.toFixed(1) + '°C'
+        valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
 
-        console.log(valueIcon);
 
 
         getDataDays(city)
