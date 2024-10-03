@@ -49,11 +49,14 @@ const getData = async(event) => {
 
     if(event.key === 'Enter'){
         let valueInput = document.querySelector('.input-pesquisa').value
-        let valueDescription = document.querySelector('.p-clima')
+        let valueDescription = document.querySelector('.desc-clima')
         let valueClima = document.querySelector('.text-clima')
-        let valueHumidity = document.querySelector('.humidity')
-        let valueWindSpeed = document.querySelector('.wind_speed')
+        let valueHumidity = document.querySelector('.text-humidity')
+        let valueWindSpeed = document.querySelector('.text-wind')
         let valueIcon = document.querySelector('.icon-clima')
+
+        console.log(valueIcon);
+        
         let valueNameCity = document.querySelector('.name-city')
         let city = valueInput
         
@@ -66,10 +69,13 @@ const getData = async(event) => {
 
         valueNameCity.innerHTML = data.name
         valueClima.innerHTML = parseInt(data.main.temp) + "°C"
-        valueDescription.innerHTML = data.weather[0].description
+        valueDescription.innerHTML = data.weather[0].description  
         valueHumidity.innerHTML = data.main.humidity + '%'
         valueWindSpeed.innerHTML = data.wind.speed + 'm/s'
         valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+
+        console.log(valueIcon);
+
 
         getDataDays(city)
 
@@ -131,4 +137,5 @@ const alterMode = (object) => {
     toggleTheme()
 }
 
+document.querySelector('.input-pesquisa').addEventListener('keypress', getData);
 

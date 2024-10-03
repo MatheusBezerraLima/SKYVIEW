@@ -23,56 +23,75 @@
 
         <div class="label-container">
              <div class="container-pesquisa">
-                <input class="input-pesquisa" type="text" onkeydown="getData(event)" placeholder="Pesquise a sua cidade...">
+                <input class="input-pesquisa" type="text" placeholder="Pesquise a sua cidade...">
                 <i class="fa fa-search icon-lupa" style="font-size:28px"></i>
             </div>
         </div>
+        
+
+        <div class="main">
+
         <div class="container-infos">
-       
-        <div class="container-info clima">
-            <div class="infos-clima">
-                <div class="container-temp"> 
-                    <h2 class="name-city">Osasco</h2>
-                    <h1 class="text-clima">32°C</h1>
-                    <div class="p-clima"><p>ensolarado</p> ☁</div>
-                    <div class="container-humidity-wind_speed">
-                        <div class="humidity"></div>
-                        <div class="wind_speed"></div>
-                        <img src="" class="icon-clima" alt="">
+            <div class="overlay"></div>
+            <div class="container-info clima">
+                <!-- <img src="./imgs/dia.jpg" class="overlay"> -->
+                <div class="infos-clima">
+                    <div class="container-temp"> 
+                        <h2 class="name-city">Osasco</h2>
+                        <div class="view-clima">   
+                            <img src="" class="icon-clima" alt="">
+
+                            <div class="p-clima">   
+                                <h1 class="text-clima">32°C</h1>
+                                <p class="desc-clima">ensolarado</p>
+                            </div>
+                        </div>
+                        <div class="container-humidity-wind_speed">
+                            <div class="details-climas">
+                                <img src="./imgs/umidade.png" style="width: 48px; height: fit-content;">
+                                 <p class="text-humidity"></p>
+                            </div>
+                            <div class="details-climas">
+                                <img src="./imgs/vento.png" style="width: 48px; height: 48px;">
+                                <p class="text-wind"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-info box-list-days">
+                
+                <div class="header-container-local">
+                    <div class="conteudo-header">
+                        <i class="fa fa-calendar" style="font-size:28px"></i>
+                        <p>PREVISÃO PARA 5 DIAS</p>
+                    </div>
+                </div>
+
+                    <div class="list-days">
+                        <div class="item-day"> 
+                            <div class="day">Seg</div>
+                            <div class="icon-day">
+                                <i class="fa fa-cloud" style="font-size:36px"></i>
+                            </div>
+                            <div class="temp-day">
+                                <span class="max-temp">24°C</span>
+                                <span class="max-temp">--------------</span>
+                                <span class="max-temp">14°C</span>
+                            </div>
+                        </div>
+                        <div class="item-day">DAY TWO</div>
+                        <div class="item-day">DAY TREE</div>
+                        <div class="item-day">DAY FOUR</div>
+                        <div class="item-day">DAY FIVE</div>
+                    </div>
+            
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="container-info local">
-            <div class="header-container-local">
-                <div class="conteudo-header">
-                    <i class="fa fa-calendar" style="font-size:28px"></i>
-                    <p>PREVISÃO PARA 5 DIAS</p>
-                </div>
-            </div>
-
-            <div class="list-days">
-                <div class="item-day"> 
-                    <div class="day">Seg</div>
-                    <div class="icon-day">
-                        <i class="fa fa-cloud" style="font-size:36px"></i>
-                    </div>
-                    <div class="temp-day">
-                        <span class="max-temp">24°C</span>
-                        <span class="max-temp">--------------</span>
-                        <span class="max-temp">14°C</span>
-                    </div>
-                </div>
-                <div class="item-day">DAY TWO</div>
-                <div class="item-day">DAY TREE</div>
-                <div class="item-day">DAY FOUR</div>
-                <div class="item-day">DAY FIVE</div>
-            </div>
-
-        </div>
-    </div>
-    </div>
+      
 
     <script  src="scripts/script-openwather.js"></script>    
 </body>
