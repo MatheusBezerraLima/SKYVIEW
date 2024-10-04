@@ -1,47 +1,122 @@
 
 const apiKey = '20fba1ad64c719dbf6e527049f292875';
-const listDays = []
+var dayNumber = new Date().getDay();
+console.log(dayNumber);
 
+const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+const fevereiro = ['28', '29']
+const month30days = ['04','06', '08', '10', '12']
+const month31days = ['01', '03', '05', '07', '09', '11']
 
-// const getDateLocal = () =>{
-//     const now = new Date()
+const getNextdays = (day, month, year) =>{
 
-//     const dayNumber = now.getDay()
-//     const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom']
+    const nextDays = []
+    const getnextDates = []
 
-//     const dayWeek = daysOfWeek[dayNumber - 1]
+    for(i = 0; i<month30days.length; i++){
+        if(month30days[i] == month){
+            for(d= 1; d < 5; d++){
+                nextDays.push(day + 1)
+                console.log(nextDays);
+                day += 1
 
-//     const day = now.getDate() + 1
-//     const month = now.getMonth() +1
-//     const year = now.getFullYear()
+                if(day == 31){
+                    day == 0
+                    month == month + 1
+                }
 
-//     const calcProximosDias = () =>{
+                getnextDates.push(`${year}-${month}-${day} 12:00:00`)
+                getnextDates.push(`${year}-${month}-${day+1} 00:00:00`)
 
-//         for(i = 0; i <= 4; i++ ){
+             
+                // console.log(getnextDates);
+            }
+        }
+    }
+    return getnextDates;
 
-//             const fullDate = `${day}-${month}-${year}`
-            
-//             if(day == 30 & day+1 = 3){
-                
-//             }
-            
-//             // listDays.push()
-//         }
-//     }
+}
+ 
+const insertDaysWeek = () =>{
 
-//     calcProximosDias()
-// }
+    const valuesDays = document.querySelectorAll('.day')
 
-// getDateLocal()
+    for(i=0; i < valuesDays.length; i++){
+        if(dayNumber == 7){
+            dayNumber = 0
+        }
 
-const getDataDays = async( city) =>{
+        var dayWeek = daysOfWeek[dayNumber ]
+        valuesDays[i].innerHTML = dayWeek
+        dayNumber +=1
+
+       
+
+    }
+}
+
+insertDaysWeek()
+
+const getDateLocal = () =>{
+    const now = new Date()
+
+    const day = now.getDate() 
+    const month = now.getMonth() +1
+    const year = now.getFullYear()
+
     
-const apiDias = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+    const nextDates = getNextdays(day, month, year)
 
-const response = await fetch(apiDias)
-const data = await response.json()
+    return nextDates;
+}
 
-console.log(data.list);
+const insertForecast = (data) =>{
+    
+    const cont = 0
+    const iconDay = document.querySelectorAll('.icon-day')
+    const valueMaxTemp = document.querySelectorAll('.max-temp')
+    const valueMinTemp = document.querySelectorAll('.min-temp')
+
+    console.log(data);
+    
+    for(i=0; i < data.length / 2 ; i ++){
+        iconDay[i].src = `https://openweathermap.org/img/wn/${data[i * 2].Icon}@2x.png`
+
+        valueMaxTemp[i].innerHTML = data[i * 2].Temp.toFixed(0) + '°C'
+        valueMinTemp[i].innerHTML = data[i * 2 + 1].Temp.toFixed(0) + '°C'
+        
+    }    
+    
+}
+
+const getDataDays = async(city) =>{
+    
+    const apiDias = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+
+    const response = await fetch(apiDias)
+    const data = await response.json()
+
+    // console.log(data.list);
+    
+    
+    var listPrevDays = []
+
+    const nextDatesOfc = getDateLocal()
+
+    for(t = 0; t< nextDatesOfc.length ; t++){
+
+        for(i=0 ; i< data.list.length; i++){
+
+            const nextDate = new Date(nextDatesOfc[t]);  
+            const apiDate = new Date(data.list[i].dt_txt);
+
+            if(nextDate.getTime() === apiDate.getTime()){                   
+                listPrevDays.push({Data: nextDatesOfc[t] ,Temp: data.list[i].main.temp, Icon: data.list[i].weather[0].icon})
+            }
+        }
+    }
+
+    insertForecast(listPrevDays)
 
 }
 
@@ -56,8 +131,11 @@ const getData = async(event) => {
         let valueIcon = document.querySelector('.icon-clima')
         let valueTempMin = document.querySelector('.text-temp-min')
         let valueTempMax = document.querySelector('.text-temp-max')
+        let valueTempMaxPrev = document.querySelector('.max-temp-atual')
+        let valueTempMinPrev = document.querySelector('.min-temp-atual')
+        let valueIconPrev = document.querySelector('.icon-day-atual')
 
-        console.log(valueIcon);
+        // console.log(valueIcon);
         
         let valueNameCity = document.querySelector('.name-city')
         let city = valueInput
@@ -67,7 +145,7 @@ const getData = async(event) => {
         const response = await fetch(apiWeatherURL);
         const data = await response.json();
 
-        console.log(data);
+        // console.log(data);
         
         
 
@@ -75,11 +153,13 @@ const getData = async(event) => {
         valueClima.innerHTML = parseInt(data.main.temp) + "°C"
         valueDescription.innerHTML = data.weather[0].description  
         valueHumidity.innerHTML = data.main.humidity + '%'
-        valueWindSpeed.innerHTML = data.wind.speed + 'm/s'
+        valueWindSpeed.innerHTML = data.wind.speed + ' m/s'
         valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
         valueTempMax.innerHTML =  data.main.temp_max.toFixed(1) + '°C'
         valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
-
+        valueIconPrev.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        valueTempMaxPrev.innerHTML = parseInt(data.main.temp) + "°C"
+        valueTempMinPrev.innerHTML = parseInt(data.main.temp_min.toFixed(0)) + "°C"
 
 
         getDataDays(city)

@@ -3,26 +3,56 @@
     padding: 0;
     font-family: "Poppins", sans-serif;
 }
+/*
+   --background-color: #ffffff; /* Branco puro para o fundo 
+    --text-color: #ffffff; /* Preto suave para um bom contraste no texto 
+    --sky: rgba(53, 53, 53, 0.866); /* Um tom mais equilibrado de azul (SteelBlue) para o céu 
+    --header-color: rgba(12, 86, 235, 0.759); /* Um branco bem claro, mas distinto do fundo 
+    --container-principal: rgba(12, 86, 235, 0.759); /* Branco com leve transparência para manter o destaque no container principal 
+    --background-input: rgba(240, 240, 240, 0.9); /* Cinza claro e suave para o fundo dos inputs 
+    --border-input: rgba(200, 200, 200, 0.9); /* Borda clara, mas com contraste suficiente para inputs 
+    --container-info-clima: ; /* Fundo claro, mantendo leve contraste com o fundo geral 
+    --divs-detalhes: rgba(44, 104, 222, 0.759); /* Cinza mais escuro para destacar detalhes 
+    --shadow-divs-detalhes: rgba(255, 254, 254, 0.15) ; /* Sombra sutil para dar profundidade, mas sem pesar 
+    --div-view-clima: rgba(100, 149, 237, 0.5); /* Azul mais vibrante e com transparência para destacar a visualização do clima 
+*/
 
 :root {
     /* Variáveis padrão para o tema claro */
     --background-color: #000000;
     --text-color: aliceblue;
-    --primary-color: #ff6600;
     --sky:  rgb(31, 12, 235);
     --header-color: rgb(30, 30, 30);
+    --container-principal: #2929299f;
+    --background-input: #434242b0;
+    --border-input: #ffffffb6;
+    --container-info-clima: #48484862;
+    --divs-detalhes: #2e2e2ecc;
+    --shadow-divs-detalhes: rgba(0, 0, 0, 0.438);
+    --div-view-clima: rgba(0, 47, 255, 0.427);
+
 }
 .light-theme {
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --primary-color: #007bff;
+    --background-color: rgba(51, 75, 210, 0.763);
+    --text-color: rgb(0, 0, 0);
+    --sky:  rgb(31, 12, 235);
+    --header-color: rgb(183, 183, 183);
+    --container-principal: #ffffffcf;
+    --background-input: #434242b0;
+    --border-input: #ffffffb6;
+    --container-info-clima: #48484862;
+    --divs-detalhes: #d7d4d4cc;
+    --shadow-divs-detalhes: rgba(157, 155, 155, 0.438);
+    --div-view-clima: rgba(0, 47, 255, 0.732);
+
 }
 
-
+body{
+    background-color: var(--background-color);
+}
 .backEffect{
     width: 100%;
     height: 100vh;
-    background-color: var(--background-color);
     position: absolute;
     z-index: 999;
     animation:  toEmerge 1.5s ease-in-out ;
@@ -92,7 +122,7 @@
 }
 .label-container{
     height: 10vh;
-    color: #ffffff;
+    color: var(--text-color);
     text-align: center;
     font-size: 2.5em;
     display: flex;
@@ -107,13 +137,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: black;
 }
 
 .container-infos{
     width: 80vw;
     height: 70vh;
-    background-color: #000000c1;
+    background-color: var(--container-principal);
     position: relative;
     display: flex;
     border-radius: 10px;
@@ -127,18 +156,12 @@
     position: relative;
 }
 
-.clima{
-    background-color: #48484862;  
-    z-index: 999;
-
-}
-
 .infos-clima{
     height: 90%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    color: wheat;
+    /* color: wheat; */
     padding: 1em 1em;
     z-index: 999;
 }
@@ -166,16 +189,19 @@
     width: 40vw;
     padding: 1em;
     border-radius: 10px;
-    background-color: #434242b0;
-    border: 1px solid #ffffffb6;
+    background-color: var(--background-input);
+    border: 1px solid var(--border-input);
     margin: 0;
     position: relative;
     line-height: 1;
-    color: #fff;
+    color: var(--text-color);
     font-size: 0.4em;
 
 }
-
+.clima{
+    z-index: 999;
+    color: var(--text-color);
+}
 .container-pesquisa{
     position: relative;
     height: 7vh;
@@ -191,13 +217,12 @@
 }
 
 .box-list-days{
-    background-color: #48484862;
     z-index: 999;
 }
 .header-container-local{
     width: 100%;
     height: 10vh;
-    background-color: #434242b0;
+    background-color: ;
     font-size: 1.5em;
     display: flex;
     justify-content: center;
@@ -209,7 +234,7 @@
     gap: 0.5em;
     flex-direction: row ;
     align-items: flex-end;
-    color: #fff;
+    color: var(--text-color);
 }
 .list-days{
     width: calc(100% - 2em);
@@ -223,27 +248,28 @@
     width: calc( 100% - 1em) ;
     height: 18%;
     border-radius: 0.5em ;
-    background-color: rgba(79, 79, 79, 0.281);
-    color: #fff;
-}
-
-.item-day{
+    background-color: var(--divs-detalhes);
+    color: var(--text-color);  
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 0  0.5em ;
-    
+}
+.item-day-atual{
+    width: calc( 100% - 1em) ;
+    height: 18%;
+    border-radius: 0.5em ;
+    background-color: var(--divs-detalhes);
+    color: var(--text-color);  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0  0.5em ; 
 }
 
-.overlay{
-    position: absolute;
-    z-index: 999;
-    opacity: 0.5;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-}
+
 .container-four-infos{
     display: flex;
     flex-direction: row;
@@ -266,19 +292,25 @@
 .details-climas{
     display: flex;
     gap: 0.3em;
-    font-size: 1em;
-    width: 100%;
-    height: 50%;
+    font-size: 0.8em;
+    width: calc(100% - (0.8em + 4px));
+    height: calc( 50% + 1.1em);
+    border-radius: 10px;
+    background-color: var(--divs-detalhes);
+    align-items: center;
+    padding: 0.2em 0.4em;
+    box-shadow: 5px 5px 5px var(--shadow-divs-detalhes);    
 }
 
 .view-clima{
-    background-color: rgba(0, 47, 255, 0.427);
+    background-color: var(--div-view-clima);
     z-index: 999;
     display: flex  ;
     padding: 0.1em 1em;
     border-radius: 10px;
     font-size: .7em;
     gap: 1em;
+    width: calc( 450px - (2em));
 }
 
 .p-clima{
@@ -298,8 +330,27 @@
 
 .desc-clima{
     line-height: 1em;
-    font-size: 6em;
+    font-size: 4em;
 }
 .icon-clima{
     width: 150px;
+}
+
+.title-cont{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: 0.8em;
+    gap: 0.5em;
+    padding: 0.1em 0;
+}
+
+.title-cont p{
+    line-height: 1em;
+}
+
+.title-card{
+    font-weight: bold;
 }
