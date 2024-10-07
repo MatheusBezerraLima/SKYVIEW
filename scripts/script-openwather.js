@@ -1,13 +1,13 @@
 
 const apiKey = '20fba1ad64c719dbf6e527049f292875';
 var dayNumber = new Date().getDay();
-console.log(dayNumber);
 var firstGet = true
 
 const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 const fevereiro = ['28', '29']
 const month30days = ['04','06', '08', '10', '12']
 const month31days = ['01', '03', '05', '07', '09', '11']
+var icon = ''
 
 
 const fillBarTempMin = (tempMin, tempMax, indice) => {
@@ -45,14 +45,20 @@ const fillBarTempMin = (tempMin, tempMax, indice) => {
     } else if (tempMax > 35) {
         maxTemp = '#ff3300'; // Vermelho quente
     }
-
-    console.log(minTemp, maxTemp);
     
     const barra = document.querySelectorAll('.barra');
-    console.log(barra[indice + 1]);
+
+    console.log(indice);
+    
+    if(indice == 10){
+        const barraAtual = document.querySelector('.barra-atual');
+        console.log(barraAtual);
+        
+        barraAtual.style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
+    }
 
     // Atualiza o estilo da barra com um gradiente linear
-    barra[indice + 1].style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
+    barra[indice].style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
 };
 
 const getNextdays = (day, month, year) =>{
@@ -64,7 +70,6 @@ const getNextdays = (day, month, year) =>{
         if(month30days[i] == month){
             for(d= 1; d < 5; d++){
                 nextDays.push(day + 1)
-                console.log(nextDays);
                 day += 1
 
                 if(day == 31){
@@ -75,13 +80,11 @@ const getNextdays = (day, month, year) =>{
                 getnextDates.push(`${year}-${month}-${day}`)
 
              
-                // console.log(getnextDates);
             }
         }
         if(month31days[i] == month){
             for(d= 1; d < 5; d++){
                 nextDays.push(day + 1)
-                console.log(nextDays);
                 day += 1
 
                 if(day == 32){
@@ -90,9 +93,7 @@ const getNextdays = (day, month, year) =>{
                 }
 
                 getnextDates.push(`${year}-${month}-${day}`)
-
              
-                // console.log(getnextDates);
             }
         }
     }
@@ -140,8 +141,6 @@ const insertForecast = (data) =>{
     const iconDay = document.querySelectorAll('.icon-day')
     const valueMaxTemp = document.querySelectorAll('.max-temp')
     const valueMinTemp = document.querySelectorAll('.min-temp')
-
-    console.log(data);
     
     for(i=0; i < data.length  ; i ++){
         iconDay[i].src = `https://openweathermap.org/img/wn/${data[i].Icon}@2x.png`
@@ -153,26 +152,78 @@ const insertForecast = (data) =>{
     
 }
 
+const fillToday = (data) =>{
+    
+    console.log(data);
+    
+    let TempMin = 999
+    let TempMax = 0
+    let now = new Date()
+
+    let day = now.getDate() 
+    let month = now.getMonth() +1
+    let year = now.getFullYear()
+
+    let today = `${year}-${month}-${day}`
+
+    let dateToday = new Date(today)
+    const nextDateString = dateToday.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+
+    console.log(nextDateString);
+    
+    for(i=0 ; i< data.length; i++){
+        let apiDate = new Date(data[i].dt_txt); 
+        let apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
+        console.log(apiDateString);
+        
+        // console.log(apiDate);
+        if(nextDateString === apiDateString ){
+
+            let temp = data[i].main.temp;
+
+                if(temp < TempMin){
+                    TempMin = temp
+                }else if(temp > TempMax){
+                    TempMax = temp
+                    icon = data[i].weather[0].icon
+                    console.log(icon);
+                    
+
+                }
+                        
+        }
+    }
+    const iconDay = document.querySelector('.icon-day-atual')
+    const valueMaxTemp = document.querySelector('.max-temp-atual')
+    const valueMinTemp = document.querySelector('.min-temp-atual')
+
+    iconDay.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+
+    valueMaxTemp.innerHTML = TempMax.toFixed(0) + '°'
+    valueMinTemp.innerHTML = TempMin.toFixed(0) + '°'
+
+    fillBarTempMin(TempMin, TempMax, 10)
+    return;
+}
+
 const getDataDays = async(city) =>{
     
-    var TempMax = 0
-    var TempMin = 999
 
     const apiDias = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
 
     const response = await fetch(apiDias)
     const data = await response.json()
-
-    // console.log(data.list);
     
     
     var listPrevDays = []
-    var icon = ''
     const nextDatesOfc = getDateLocal()
 
     for(t = 0; t< nextDatesOfc.length ; t++){
+        var TempMax = 0
+        var TempMin = 999
 
         for(i=0 ; i< data.list.length; i++){
+            
 
             let nextDates = new Date(nextDatesOfc[t])
             const nextDateString = nextDates.toISOString().split('T')[0]; // 'YYYY-MM-DD'
@@ -180,7 +231,6 @@ const getDataDays = async(city) =>{
             const apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
             if(nextDateString == apiDateString){
-
                 
                 const temp = data.list[i].main.temp;
 
@@ -190,6 +240,8 @@ const getDataDays = async(city) =>{
                     // Calculo para deixar o valor mais aproximado, menos no dia seguinte ao atual pelo fato de serem valores mais precisos  
                     TempMax = t > 0 ? temp - 1.8 : temp
                     icon = data.list[i].weather[0].icon
+                    console.log(TempMax);
+                    
 
                 }
             }
@@ -202,14 +254,14 @@ const getDataDays = async(city) =>{
             TempMin: TempMin,
             Icon: icon})
 
-        console.log(TempMax, '--' ,TempMin);
-        console.log(listPrevDays);
+      
 
         fillBarTempMin(TempMin,TempMax, t)
         
     }
-
     insertForecast(listPrevDays)
+    fillToday(data.list)
+
 
 }
 
@@ -217,8 +269,6 @@ const getData = async(cityFromIp = null) => {
     let valueInput = document.querySelector('.input-pesquisa').value
 
     const city = firstGet && cityFromIp ? cityFromIp : valueInput;
-
-    console.log(city);
         
         let valueDescription = document.querySelector('.desc-clima')
         let valueClima = document.querySelector('.text-clima')
@@ -227,9 +277,7 @@ const getData = async(cityFromIp = null) => {
         let valueIcon = document.querySelector('.icon-clima')
         let valueTempMin = document.querySelector('.text-temp-min')
         let valueTempMax = document.querySelector('.text-temp-max')
-        let valueTempMaxPrev = document.querySelector('.max-temp-atual')
-        let valueTempMinPrev = document.querySelector('.min-temp-atual')
-        let valueIconPrev = document.querySelector('.icon-day-atual')
+
 
         
         let valueNameCity = document.querySelector('.name-city')
@@ -249,9 +297,7 @@ const getData = async(cityFromIp = null) => {
         valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
         valueTempMax.innerHTML =  data.main.temp_max.toFixed(1) + '°C'
         valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
-        valueIconPrev.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-        valueTempMaxPrev.innerHTML = parseInt(data.main.temp) + "°C"
-        valueTempMinPrev.innerHTML = parseInt(data.main.temp_min.toFixed(0)) + "°C"
+      
 
         firstGet = false 
 
@@ -307,12 +353,12 @@ const getCityIp = async() =>{
     fetch('https://ipapi.co/json/')
     .then(response => response.json())
     .then(data => {
-        console.log(`Cidade: ${data.city}`);
+        // console.log(`Cidade: ${data.city}`);
         // console.log(`Região: ${data.region}`);
         // console.log(`País: ${data.country_name}`);
         getData(data.city)
     }).catch(error => console.error('Erro ao obter localização por IP:', error));
-
+x
 }
 
 

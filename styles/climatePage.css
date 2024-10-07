@@ -270,7 +270,7 @@ input:focus {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0  0.5em ; 
+    padding: 0  0.5em ;
 }
 
 
@@ -365,12 +365,23 @@ input:focus {
     align-items: center;
     gap: 0.7em;
 }
+.temp-day-atual{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.7em;
+}
 .barra{
     width: 100px;
     height: 7px;
     border-radius: 10px;
     background:  linear-gradient(90deg, #ffff66, #e68a3a);
-    
+}
+
+.barra-atual{
+    width: 100px;
+    height: 7px;
+    border-radius: 10px;
 }
 
 
