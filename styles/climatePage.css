@@ -204,6 +204,10 @@ input:focus {
     cursor: pointer;
     line-height: 1;
 }
+.icon-day{
+    min-width: 60px;
+    width: 60px;
+}
 
 .box-list-days{
     z-index: 999;
@@ -288,6 +292,14 @@ input:focus {
     align-items: center;
     padding: 0.2em 0.4em;
     box-shadow: 5px 5px 5px var(--shadow-divs-detalhes);    
+}
+.details-climas img{
+    width: 48px;
+    height: 48px;
+    min-height: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    max-height: 48px;
 }
 
 .view-clima{
@@ -557,6 +569,7 @@ input:focus {
         padding: 0.2em 0.4em;   
         box-shadow: 5px 5px 5px var(--shadow-divs-detalhes);    
     }
+    
     .overlay{
         background-color: #00000000;
     }
