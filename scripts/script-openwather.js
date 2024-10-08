@@ -15,36 +15,37 @@ const fillBarTempMin = (tempMin, tempMax, indice) => {
     var maxTemp = '';
 
     if (tempMin <= 0) {
-        minTemp = '#0044cc'; // Azul mais claro para temperaturas muito frias
+        minTemp = '#005f99'; // Azul frio profundo para temperaturas muito baixas
     } else if (tempMin <= 10) {
-        minTemp = '#3399ff'; // Azul claro
+        minTemp = '#3399cc'; // Azul mais suave
     } else if (tempMin <= 20) {
-        minTemp = '#66ccff'; // Azul suave
+        minTemp = '#66b2ff'; // Azul claro e suave
     } else if (tempMin <= 25) {
-        minTemp = '#ffcc66'; // Amarelo suave
+        minTemp = '#ffd966'; // Amarelo suave e caloroso
     } else if (tempMin <= 30) {
-        minTemp = '#ffaa33'; // Laranja claro
+        minTemp = '#ffb84d'; // Laranja suave
     } else if (tempMin <= 35) {
-        minTemp = '#ff6600'; // Laranja mais escuro
+        minTemp = '#ff8c1a'; // Laranja vibrante
     } else if (tempMin > 35) {
-        minTemp = '#ff3300'; // Vermelho quente
+        minTemp = '#ff471a'; // Vermelho quente intenso
     }
-
+    
     if (tempMax <= 0) {
-        maxTemp = '#0044cc'; // Azul mais claro para temperaturas muito frias
+        maxTemp = '#005f99'; // Azul frio profundo para temperaturas muito baixas
     } else if (tempMax <= 10) {
-        maxTemp = '#3399ff'; // Azul claro
+        maxTemp = '#3399cc'; // Azul mais suave
     } else if (tempMax <= 20) {
-        maxTemp = '#66ccff'; // Azul suave
+        maxTemp = '#66b2ff'; // Azul claro e suave
     } else if (tempMax <= 25) {
-        maxTemp = '#ffcc66'; // Amarelo suave
+        maxTemp = '#ffd966'; // Amarelo suave e caloroso
     } else if (tempMax <= 30) {
-        maxTemp = '#ffaa33'; // Laranja claro
+        maxTemp = '#ffb84d'; // Laranja suave
     } else if (tempMax <= 35) {
-        maxTemp = '#ff6600'; // Laranja mais escuro
+        maxTemp = '#ff8c1a'; // Laranja vibrante
     } else if (tempMax > 35) {
-        maxTemp = '#ff3300'; // Vermelho quente
+        maxTemp = '#ff471a'; // Vermelho quente intenso
     }
+    
     
     const barra = document.querySelectorAll('.barra');
     
@@ -174,11 +175,10 @@ const fillToday = (data) =>{
 
                 if(temp < TempMin){
                     TempMin = temp
-                }else if(temp > TempMax){
+                }
+                if(temp > TempMax){
                     TempMax = temp
                     icon = data[i].weather[0].icon
-                    
-
                 }
                         
         }
@@ -226,7 +226,8 @@ const getDataDays = async(city) =>{
 
                 if(temp < TempMin){
                     TempMin =  temp
-                }else if(temp > TempMax){
+                }
+                if(temp > TempMax){
                     // Calculo para deixar o valor mais aproximado, menos no dia seguinte ao atual pelo fato de serem valores mais precisos  
                     TempMax =  temp
                     icon = data.list[i].weather[0].icon
@@ -315,12 +316,17 @@ const getCityIp = async() =>{
         // console.log(`País: ${data.country_name}`);
         getData(data.city)
     }).catch(error => console.error('Erro ao obter localização por IP:', error));
-x
-}
+
+}   
 
 
 document.querySelector('.input-pesquisa').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         getData(); // Busca pela cidade digitada
     }
-});document.addEventListener('DOMContentLoaded', getCityIp)
+});
+
+
+document.addEventListener('DOMContentLoaded', getCityIp)
+
+

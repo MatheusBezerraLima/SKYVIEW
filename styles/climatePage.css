@@ -3,19 +3,6 @@
     padding: 0;
     font-family: "Poppins", sans-serif;
 }
-/*
-   --background-color: #ffffff; /* Branco puro para o fundo 
-    --text-color: #ffffff; /* Preto suave para um bom contraste no texto 
-    --sky: rgba(53, 53, 53, 0.866); /* Um tom mais equilibrado de azul (SteelBlue) para o céu 
-    --header-color: rgba(12, 86, 235, 0.759); /* Um branco bem claro, mas distinto do fundo 
-    --container-principal: rgba(12, 86, 235, 0.759); /* Branco com leve transparência para manter o destaque no container principal 
-    --background-input: rgba(240, 240, 240, 0.9); /* Cinza claro e suave para o fundo dos inputs 
-    --border-input: rgba(200, 200, 200, 0.9); /* Borda clara, mas com contraste suficiente para inputs 
-    --container-info-clima: ; /* Fundo claro, mantendo leve contraste com o fundo geral 
-    --divs-detalhes: rgba(44, 104, 222, 0.759); /* Cinza mais escuro para destacar detalhes 
-    --shadow-divs-detalhes: rgba(255, 254, 254, 0.15) ; /* Sombra sutil para dar profundidade, mas sem pesar 
-    --div-view-clima: rgba(100, 149, 237, 0.5); /* Azul mais vibrante e com transparência para destacar a visualização do clima 
-*/
 
 :root {
     /* Variáveis padrão para o tema claro */
@@ -51,7 +38,9 @@ body{
 background-image: url('../imgs/nightback.jpg');
 background-size: cover;
 background-repeat: no-repeat;
+height: auto;
 }
+
 .backEffect{
     width: 100%;
     height: 100vh;
@@ -60,13 +49,6 @@ background-repeat: no-repeat;
     animation:  toEmerge 1.5s ease-in-out ;
 }
 
-/* @keyframes toEmerge {
-    from{
-        margin-left: -200%;
-    }to{
-        margin-left: 0;
-    }
-} */
 
 .header{
     width: 97%;
@@ -439,7 +421,8 @@ input:focus {
         border-radius: 10px;
         flex-direction: column;
         flex-wrap: wrap;
-        gap: 4em;
+        gap: 2em;
+        margin-top: 3vh;
     }
     .container-info{
         width: 100%;    
@@ -455,6 +438,7 @@ input:focus {
     }
     .name-city{
         margin-top: 1em;
+        text-align: center;
     }
     .container-temp{
         display: flex;
@@ -471,11 +455,14 @@ input:focus {
         width: calc(300px + 1.5em);
         justify-content: space-between;
         gap: 0.2em;
-        background-color: var(--container-principal);
+        background-color: NONE;
+        padding: 0.5em 0;
 
     }
     .box-list-days{
         background-color: var(--container-principal);
+        margin-bottom: 0;
+        height: auto;
     }
     .container-humidity-wind_speed{
         display: flex;
@@ -529,6 +516,7 @@ input:focus {
     .desc-clima{
         line-height: 1em;
         font-size: 4em;
+        text-align: center;
     }
     .icon-clima{
         width: 150px;
