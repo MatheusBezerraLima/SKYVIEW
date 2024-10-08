@@ -90,9 +90,7 @@ const getNextdays = (day, month, year) =>{
         }
 
         // Adiciona as datas no formato 'YYYY-MM-DD' - Colocando o zero a frente dos meses que possuem apenas um algarismo 
-        getnextDates.push(`${year}-${month}-${day}`);
-        console.log(getnextDates);
-        
+        getnextDates.push(`${year}-${month}-${day}`);        
     }
 
      return getnextDates;

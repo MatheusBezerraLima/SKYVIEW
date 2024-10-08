@@ -8,7 +8,7 @@
     /* Variáveis padrão para o tema claro */
     --background-color: #000000;
     --text-color: aliceblue;
-    --sky:  rgb(248, 247, 255);
+    --sky:  rgb(51, 75, 210);
     --header-color: #2d2c2c8f;
     --container-principal: #4444448f;
     --background-input: #434242b0;
@@ -17,20 +17,6 @@
     --divs-detalhes: #2e2e2ecc;
     --shadow-divs-detalhes: rgba(0, 0, 0, 0.438);
     --div-view-clima: rgba(0, 47, 255, 0.358);
-
-}
-.light-theme {
-    --background-color: rgba(51, 75, 210, 0.763);
-    --text-color: rgb(0, 0, 0);
-    --sky:  rgb(255, 255, 255);
-    --header-color: rgb(183, 183, 183);
-    --container-principal: #ffffffcf;
-    --background-input: #434242b0;
-    --border-input: #ffffffb6;
-    --container-info-clima: #48484862;
-    --divs-detalhes: #d7d4d4cc;
-    --shadow-divs-detalhes: rgba(157, 155, 155, 0.438);
-    --div-view-clima: rgba(0, 47, 255, 0.732);
 
 }
 
@@ -499,7 +485,10 @@ input:focus {
         border-radius: 10px;
         font-size: .7em;
         gap: 1em;
-        width: 300px
+        width: 300px;
+        max-width: 300px;
+        min-width: calc(100% - 2em );
+
     }
     .infos-clima{
         height: 90%;
