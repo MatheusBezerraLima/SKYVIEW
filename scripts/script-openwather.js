@@ -1,13 +1,12 @@
 
 const apiKey = '20fba1ad64c719dbf6e527049f292875';
-var dayNumber = new Date().getDay();
+var dayNumber = new Date().getDay() + 1;
 var firstGet = true
 
 const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 const fevereiro = ['28', '29']
 const month30days = ['04','06', '08', '10', '12']
 const month31days = ['01', '03', '05', '07', '09', '11']
-var icon = ''
 
 
 const fillBarTempMin = (tempMin, tempMax, indice) => {
@@ -49,55 +48,57 @@ const fillBarTempMin = (tempMin, tempMax, indice) => {
     
     const barra = document.querySelectorAll('.barra');
     
-    if(indice == 10){
-        const barraAtual = document.querySelector('.barra-atual');
-        
-        barraAtual.style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
-    }
-
     // Atualiza o estilo da barra com um gradiente linear
-    barra[indice].style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
+    if( t <= 3 ){
+            barra[indice].style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
+
+    }
 };
 
 const getNextdays = (day, month, year) =>{
 
-    const nextDays = []
     const getnextDates = []
 
-    for(i = 0; i<month30days.length; i++){
-        if(month30days[i] == month){
-            for(d= 1; d < 5; d++){
-                nextDays.push(day + 1)
-                day += 1
+    for (let i = 0; i < 5; i++) {
+        day += 1;
 
-                if(day == 31){
-                    day == 0
-                    month == month + 1
-                }
-
-                getnextDates.push(`${year}-${month}-${day}`)
-
-             
-            }
+        // Lida com os meses de 30 dias
+        if (month30days.includes(month.toString()) && day > 30) {
+            day = 1;
+            month += 1;
         }
-        if(month31days[i] == month){
-            for(d= 1; d < 5; d++){
-                nextDays.push(day + 1)
-                day += 1
 
-                if(day == 32){
-                    day == 0
-                    month == month + 1
-                }
-
-                getnextDates.push(`${year}-${month}-${day}`)
-             
-            }
+        // Lida com os meses de 31 dias
+        if (month31days.includes(month.toString()) && day > 31) {
+            day = 1;
+            month += 1;
         }
+
+        // Lida com o mês de fevereiro
+        if (month == 2 && day > 28 && year % 4 != 0) {
+            day = 1;
+            month = 3;
+        } else if (month == 2 && day > 29 && year % 4 == 0) {
+            day = 1;
+            month = 3;
+        }
+
+        // Lida com o mês de dezembro
+        if (month > 12) {
+            month = 1;
+            year += 1;
+        }
+
+        // Adiciona as datas no formato 'YYYY-MM-DD' - Colocando o zero a frente dos meses que possuem apenas um algarismo 
+        getnextDates.push(`${year}-${month}-${day}`);
+        console.log(getnextDates);
+        
     }
-    return getnextDates;
 
+     return getnextDates;
 }
+    
+
  
 const insertDaysWeek = () =>{
 
@@ -109,10 +110,10 @@ const insertDaysWeek = () =>{
             dayNumber = 0
         }
 
-        var dayWeek = daysOfWeek[dayNumber ]
+        var dayWeek = daysOfWeek[dayNumber]
 
         // Verifica se esta tratando do dia atual ou dos próximos
-        valuesDays[i].innerHTML = i ==  0 ? '<b>Hoje</b>' : '<b>' + dayWeek + '.</b>'
+        valuesDays[i].innerHTML = '<b>' + dayWeek + '.</b>'
         dayNumber +=1
 
        
@@ -131,7 +132,7 @@ const getDateLocal = () =>{
 
     
     const nextDates = getNextdays(day, month, year)
-
+    
     return nextDates;
 }
 
@@ -141,6 +142,7 @@ const insertForecast = (data) =>{
     const valueMinTemp = document.querySelectorAll('.min-temp')
     
     for(i=0; i < data.length  ; i ++){
+        
         iconDay[i].src = `https://openweathermap.org/img/wn/${data[i].Icon}@2x.png`
 
         valueMaxTemp[i].innerHTML = data[i].TempMax.toFixed(0) + '°'
@@ -150,51 +152,6 @@ const insertForecast = (data) =>{
     
 }
 
-const fillToday = (data) =>{
-    
-    let TempMin = 999
-    let TempMax = 0
-    let now = new Date()
-
-    let day = now.getDate() 
-    let month = now.getMonth() +1
-    let year = now.getFullYear()
-
-    let today = `${year}-${month}-${day}`
-
-    let dateToday = new Date(today)
-    const nextDateString = dateToday.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-    
-    for(i=0 ; i< data.length; i++){
-        let apiDate = new Date(data[i].dt_txt); 
-        let apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-        
-        if(nextDateString === apiDateString ){
-
-            let temp = data[i].main.temp;
-
-                if(temp < TempMin){
-                    TempMin = temp
-                }
-                if(temp > TempMax){
-                    TempMax = temp
-                    icon = data[i].weather[0].icon
-                }
-                        
-        }
-    }
-    const iconDay = document.querySelector('.icon-day-atual')
-    const valueMaxTemp = document.querySelector('.max-temp-atual')
-    const valueMinTemp = document.querySelector('.min-temp-atual')
-
-    iconDay.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
-
-    valueMaxTemp.innerHTML = TempMax.toFixed(0) + '°'
-    valueMinTemp.innerHTML = TempMin.toFixed(0) + '°'
-
-    fillBarTempMin(TempMin, TempMax, 10)
-    return;
-}
 
 const getDataDays = async(city) =>{
     
@@ -207,32 +164,32 @@ const getDataDays = async(city) =>{
     
     var listPrevDays = []
     const nextDatesOfc = getDateLocal()
+    
 
     for(t = 0; t< nextDatesOfc.length ; t++){
-        var TempMax = 0
-        var TempMin = 999
+        var TempMax = -Infinity
+        var TempMin = Infinity     
+
 
         for(i=0 ; i< data.list.length; i++){
             
-
             let nextDates = new Date(nextDatesOfc[t])
             const nextDateString = nextDates.toISOString().split('T')[0]; // 'YYYY-MM-DD'
             const apiDate = new Date(data.list[i].dt_txt); // Cria um objeto Date a partir da string da API
             const apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-
+            
             if(nextDateString == apiDateString){
                 
-                const temp = data.list[i].main.temp;
+                const temp = data.list[i].main.temp;                
 
                 if(temp < TempMin){
                     TempMin =  temp
+                    
                 }
                 if(temp > TempMax){
-                    // Calculo para deixar o valor mais aproximado, menos no dia seguinte ao atual pelo fato de serem valores mais precisos  
                     TempMax =  temp
-                    icon = data.list[i].weather[0].icon
-                    
 
+                    icon = data.list[i].weather[0].icon
                 }
             }
             
@@ -250,7 +207,6 @@ const getDataDays = async(city) =>{
         
     }
     insertForecast(listPrevDays)
-    fillToday(data.list)
 
 
 }
@@ -287,24 +243,6 @@ const getData = async(cityFromIp = null) => {
 
     getDataDays(city)    
 
-};
-
-getData();
-    
-const transformPage = () => {
-    let div = document.createElement('div')
-    div.classList
-    }
-
-const toggleTheme = () => {
-    const body = document.querySelector('.backEffect');
-    
-    // Alterna a classe 'dark-theme' no body
-    if (body.classList.contains('light-theme')) {
-        body.classList.remove('light-theme');  // Remove tema escuro
-    } else {
-        body.classList.add('light-theme');  // Adiciona tema escuro
-    }
 }
 
 const getCityIp = async() =>{
@@ -315,7 +253,9 @@ const getCityIp = async() =>{
         // console.log(`Região: ${data.region}`);
         // console.log(`País: ${data.country_name}`);
         getData(data.city)
-    }).catch(error => console.error('Erro ao obter localização por IP:', error));
+    }).catch(
+        getData('Osasco')
+    );
 
 }   
 
