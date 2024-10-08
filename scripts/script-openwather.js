@@ -47,12 +47,9 @@ const fillBarTempMin = (tempMin, tempMax, indice) => {
     }
     
     const barra = document.querySelectorAll('.barra');
-
-    console.log(indice);
     
     if(indice == 10){
         const barraAtual = document.querySelector('.barra-atual');
-        console.log(barraAtual);
         
         barraAtual.style.background = `linear-gradient(90deg, ${minTemp}, ${maxTemp})`;
     }
@@ -154,8 +151,6 @@ const insertForecast = (data) =>{
 
 const fillToday = (data) =>{
     
-    console.log(data);
-    
     let TempMin = 999
     let TempMax = 0
     let now = new Date()
@@ -168,15 +163,11 @@ const fillToday = (data) =>{
 
     let dateToday = new Date(today)
     const nextDateString = dateToday.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-
-    console.log(nextDateString);
     
     for(i=0 ; i< data.length; i++){
         let apiDate = new Date(data[i].dt_txt); 
         let apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-        console.log(apiDateString);
         
-        // console.log(apiDate);
         if(nextDateString === apiDateString ){
 
             let temp = data[i].main.temp;
@@ -186,7 +177,6 @@ const fillToday = (data) =>{
                 }else if(temp > TempMax){
                     TempMax = temp
                     icon = data[i].weather[0].icon
-                    console.log(icon);
                     
 
                 }
@@ -235,12 +225,11 @@ const getDataDays = async(city) =>{
                 const temp = data.list[i].main.temp;
 
                 if(temp < TempMin){
-                    TempMin = temp
+                    TempMin =  temp
                 }else if(temp > TempMax){
                     // Calculo para deixar o valor mais aproximado, menos no dia seguinte ao atual pelo fato de serem valores mais precisos  
-                    TempMax = t > 0 ? temp - 1.8 : temp
+                    TempMax =  temp
                     icon = data.list[i].weather[0].icon
-                    console.log(TempMax);
                     
 
                 }
@@ -270,38 +259,32 @@ const getData = async(cityFromIp = null) => {
 
     const city = firstGet && cityFromIp ? cityFromIp : valueInput;
         
-        let valueDescription = document.querySelector('.desc-clima')
-        let valueClima = document.querySelector('.text-clima')
-        let valueHumidity = document.querySelector('.text-humidity')
-        let valueWindSpeed = document.querySelector('.text-wind')
-        let valueIcon = document.querySelector('.icon-clima')
-        let valueTempMin = document.querySelector('.text-temp-min')
-        let valueTempMax = document.querySelector('.text-temp-max')
+    let valueDescription = document.querySelector('.desc-clima')
+    let valueClima = document.querySelector('.text-clima')
+    let valueHumidity = document.querySelector('.text-humidity')
+    let valueWindSpeed = document.querySelector('.text-wind')
+    let valueIcon = document.querySelector('.icon-clima')
+    let valueTempMin = document.querySelector('.text-temp-min')
+    let valueTempMax = document.querySelector('.text-temp-max')
+    let valueNameCity = document.querySelector('.name-city') 
+    
+    const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
 
+    const response = await fetch(apiWeatherURL);
+    const data = await response.json();      
 
-        
-        let valueNameCity = document.querySelector('.name-city')
-       
-        
-        
-        const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
+    valueNameCity.innerHTML = data.name
+    valueClima.innerHTML = parseInt(data.main.temp) + "°C"  
+    valueDescription.innerHTML = data.weather[0].description  
+    valueHumidity.innerHTML = data.main.humidity + '%'
+    valueWindSpeed.innerHTML = data.wind.speed + ' m/s'
+    valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+    valueTempMax.innerHTML =  data.main.temp_max.toFixed(1) + '°C'
+    valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
 
-        const response = await fetch(apiWeatherURL);
-        const data = await response.json();        
+    firstGet = false 
 
-        valueNameCity.innerHTML = data.name
-        valueClima.innerHTML = parseInt(data.main.temp) + "°C"  
-        valueDescription.innerHTML = data.weather[0].description  
-        valueHumidity.innerHTML = data.main.humidity + '%'
-        valueWindSpeed.innerHTML = data.wind.speed + ' m/s'
-        valueIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-        valueTempMax.innerHTML =  data.main.temp_max.toFixed(1) + '°C'
-        valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
-      
-
-        firstGet = false 
-
-        getDataDays(city)    
+    getDataDays(city)    
 
 };
 
@@ -321,32 +304,6 @@ const toggleTheme = () => {
     } else {
         body.classList.add('light-theme');  // Adiciona tema escuro
     }
-}
-
-
-const alterMode = (object) => {
-    let sunImage = 'url(../imgs/sol.png)' 
-    let moonImage = 'url(../imgs/lua.png)'
-    let dayImage = 'url(../imgs/dia.jpg)'
-    let nightImage= 'url(../imgs/night.jpg)'
-
-    let currentMode = object.getAttribute("modo-atual")
-
-    if(currentMode == "lua"){
-        object.style.backgroundImage = sunImage
-        object.style.transform = 'translateX(80px)'
-        object.parentElement.style.backgroundImage = dayImage;  
-
-        object.setAttribute("modo-atual", "sol"); 
-
-    }else{
-        object.style.backgroundImage = moonImage
-        object.style.transform = 'translateX(0)';
-        object.parentElement.style.backgroundImage = nightImage;  
-        object.setAttribute("modo-atual", "lua"); 
-    }
-
-    toggleTheme()
 }
 
 const getCityIp = async() =>{
