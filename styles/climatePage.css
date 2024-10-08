@@ -22,7 +22,7 @@
 .light-theme {
     --background-color: rgba(51, 75, 210, 0.763);
     --text-color: rgb(0, 0, 0);
-    --sky:  rgb(31, 12, 235);
+    --sky:  rgb(255, 255, 255);
     --header-color: rgb(183, 183, 183);
     --container-principal: #ffffffcf;
     --background-input: #434242b0;
