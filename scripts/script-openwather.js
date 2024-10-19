@@ -4,7 +4,6 @@ var dayNumber = new Date().getDay() + 1;
 var firstGet = true
 
 const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-const fevereiro = ['28', '29']
 const month30days = ['04','06', '08', '10', '12']
 const month31days = ['01', '03', '05', '07', '09', '11']
 
@@ -89,7 +88,6 @@ const getNextdays = (day, month, year) =>{
             year += 1;
         }
 
-        // Adiciona as datas no formato 'YYYY-MM-DD' - Colocando o zero a frente dos meses que possuem apenas um algarismo 
         getnextDates.push(`${year}-${month}-${day}`);        
     }
 
@@ -97,7 +95,7 @@ const getNextdays = (day, month, year) =>{
 }
     
 
- 
+//  Insere os dias da semana de acordo com o dia atual
 const insertDaysWeek = () =>{
 
     const valuesDays = document.querySelectorAll('.day')
@@ -114,13 +112,12 @@ const insertDaysWeek = () =>{
         valuesDays[i].innerHTML = '<b>' + dayWeek + '.</b>'
         dayNumber +=1
 
-       
-
     }
 }
 
 insertDaysWeek()
 
+// Captura a data vigente
 const getDateLocal = () =>{
     const now = new Date()
 
@@ -134,6 +131,7 @@ const getDateLocal = () =>{
     return nextDates;
 }
 
+// Insere as temperaturas dos próximos dias
 const insertForecast = (data) =>{
     const iconDay = document.querySelectorAll('.icon-day')
     const valueMaxTemp = document.querySelectorAll('.max-temp')
@@ -144,13 +142,11 @@ const insertForecast = (data) =>{
         iconDay[i].src = `https://openweathermap.org/img/wn/${data[i].Icon}@2x.png`
 
         valueMaxTemp[i].innerHTML = data[i].TempMax.toFixed(0) + '°'
-        valueMinTemp[i].innerHTML = data[i].TempMin.toFixed(0) + '°'
-        
-    }    
-    
+        valueMinTemp[i].innerHTML = data[i].TempMin.toFixed(0) + '°'     
+    }     
 }
 
-
+// Faz a captura e tratamento dos dados sobre os dias posteriores, definindo a Temperatura Maxima e A TEmperatura Minima de cada dia
 const getDataDays = async(city) =>{
     
 
@@ -177,38 +173,31 @@ const getDataDays = async(city) =>{
             const apiDateString = apiDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
             
             if(nextDateString == apiDateString){
-                
                 const temp = data.list[i].main.temp;                
-
                 if(temp < TempMin){
                     TempMin =  temp
-                    
                 }
                 if(temp > TempMax){
                     TempMax =  temp
-
                     icon = data.list[i].weather[0].icon
                 }
             }
-            
-            
         }
+
         listPrevDays.push({
             Data: nextDatesOfc[t],
             TempMax: TempMax,
             TempMin: TempMin,
             Icon: icon})
 
-      
-
         fillBarTempMin(TempMin,TempMax, t)
-        
     }
     insertForecast(listPrevDays)
-
-
 }
 
+// ---------------------- FUNÇÃO PRINCIPAL ------------------------------
+
+// Captura e alimenta a pagina com informações climaticas do dia atual  
 const getData = async(cityFromIp = null) => {  
     let valueInput = document.querySelector('.input-pesquisa').value
 
@@ -229,7 +218,9 @@ const getData = async(cityFromIp = null) => {
     const data = await response.json();      
 
     valueNameCity.innerHTML = data.name
-    valueClima.innerHTML = parseInt(data.main.temp) + "°C"  
+    valueClima.innerHTML = parseInt(data.main.temp) + "°C" 
+    console.log(data.main.temp);
+     
     valueDescription.innerHTML = data.weather[0].description  
     valueHumidity.innerHTML = data.main.humidity + '%'
     valueWindSpeed.innerHTML = data.wind.speed + ' m/s'
@@ -238,11 +229,10 @@ const getData = async(cityFromIp = null) => {
     valueTempMin.innerHTML= data.main.temp_min.toFixed(1) + '°C'
 
     firstGet = false 
-
     getDataDays(city)    
-
 }
 
+// Função que captura o local onde a máquina esta acessando a página ( API IPAPI )
 const getCityIp = async() =>{
     fetch('https://ipapi.co/json/')
     .then(response => response.json())
@@ -252,18 +242,17 @@ const getCityIp = async() =>{
         // console.log(`País: ${data.country_name}`);
         getData(data.city)
     }).catch(
+        // Valor que será usado caso não consiga capturar o local
         getData('Osasco')
     );
 
 }   
-
 
 document.querySelector('.input-pesquisa').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         getData(); // Busca pela cidade digitada
     }
 });
-
 
 document.addEventListener('DOMContentLoaded', getCityIp)
 

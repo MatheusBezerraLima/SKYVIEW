@@ -5,7 +5,6 @@
 }
 
 :root {
-    /* Variáveis padrão para o tema claro */
     --background-color: #000000;
     --text-color: aliceblue;
     --sky:  rgb(51, 75, 210);
@@ -123,7 +122,6 @@ height: auto;
 .container-info{
     width: 40vw;
     height: 70vh;
-    /* border-radius: 10px; */
     overflow: hidden;
     position: relative;
 }
@@ -170,8 +168,8 @@ height: auto;
     font-size: 1em;
 }
 input:focus {
-    border-color: #444445; /* Cor desejada da borda ao selecionar */
-    outline: none; /* Remove o contorno padrão */
+    border-color: #444445; 
+    outline: none; 
   }
 .clima{
     z-index: 999;
